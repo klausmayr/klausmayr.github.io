@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Choropleth Tutorial - Leaflet</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="docs/images/favicon.ico"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+    </style>
+
+    <style>
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      
+      .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+      }
+      .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+      }
+      .legend {
+        text-align: left;
+        line-height: 18px;
+        color: #555;
+      }
+      .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="StayFocusd-infobar" style="display:none;">
+      <img
+        src="chrome-extension://laankejkbhbdhmipfmgcngdelahlfoji/common/img/eye_19x19_red.png"
+      />
+      <span id="StayFocusd-infobar-msg"></span>
+      <span id="StayFocusd-infobar-links">
+        <a id="StayFocusd-infobar-never-show">hide forever</a
+        >&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a id="StayFocusd-infobar-hide">hide once</a>
+      </span>
+    </div>
+
+    <div id="map"></div>
+    <script src="land-use.js" type="text/javascript"></script>
+    <script src="central.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var map = L.map("map").setView([18.129, -65.433], 12);
+
+        var osm = new L.tileLayer(
+            "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+        ).addTo(map);
+
+
+
+        var legend = L.control({position: 'bottomright'});
+
+
+
+
+        function getColor(d) {
+        return d === 'Swamp'  ? "#8c510a" :
+               d === 'Sugar Cane'  ? "#d8b365" :
+               d === 'Fruit' ? "#f6e8c3" :
+               d === 'Brush and Pasture' ? "#0e2421" :
+               d === 'Pasture' ? "#5ab4ac" :
+               d === 'Sorghum' ? "#01665e" :
+                            "#ff7f00";
+    }
+
+    function styleLegend(feature) {
+        return {
+            weight: 1.5,
+            opacity: 1,
+            fillOpacity: 1,
+            radius: 6,
+            fillColor: getColor(feature.properties.TypeOfIssue),
+            color: "grey"
+
+        };
+    }
+        
+        
+        var useLand = L.geoJSON(landUse, {
+                style: function(feature) {
+                    switch (feature.properties.layer) {
+                    case 'swamp-done': return {color: "#8c510a", weight: 1.1, fillColor: "#8c510a", fillOpacity: 0.5};
+                    case 'sugar-cane-don':   return {color: "#d8b365", weight: 1.1, fillColor: "#d8b365", fillOpacity: 0.5};
+                    case 'fruit-done':   return {color: "#f6e8c3", weight: 1.1, fillColor: "#f6e8c3", fillOpacity: 0.5};
+                    case 'brush-and-pasture':   return {color: "##0e2421", weight: 1.1, fillColor: "#0e2421", fillOpacity: 0.5};
+                    case 'pasture':   return {color: "#5ab4ac", weight: 1.1, fillColor: "#5ab4ac", fillOpacity: 0.5};
+                    case 'sorghum-done':   return {color: "#01665e", weight: 1.1, fillColor: "#01665e", fillOpacity: 0.5};
+                    }
+                switch (feature.properties.name) {
+                    case 'Isabella Segunda': return {color: "#000", weight: 1.1, fillColor: "#000", fillOpacity: 0.5};
+                }
+                }
+            }).addTo(map);
+
+        var geojsonMarkerOptions = {
+                radius: 8,
+                fillColor: "#ff7800",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            };
+        
+        function onEachFeature (feature, layer) {
+            layer.bindPopup(feature.properties.name)
+        }
+        
+        var center =    L.geoJSON(centrales, {
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                
+                },
+                onEachFeature: onEachFeature
+            }).addTo(map);
+      
+        var layer1937 = L.tileLayer( 'https://cartocollective.blob.core.windows.net/vieques/v1937/{z}/{x}/{y}.png',
+                {tms: false}
+            ).addTo(map);
+
+        var layer1983 = L.tileLayer('https://cartocollective.blob.core.windows.net/vieques/v1983/{z}/{x}/{y}.png',
+                {tms: false}).addTo(map);
+
+
+        var dest = {
+              "type": "Feature",
+              "properties": {
+                "name": "Destino",
+               
+              },
+              "geometry": {
+                "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -65.44092178344727,
+              18.130680571579425
+            ],
+            [
+              -65.44263839721678,
+              18.127580917219024
+            ],
+            [
+              -65.44366836547852,
+              18.123991775163283
+            ],
+            [
+              -65.43834686279295,
+              18.121218296805875
+            ],
+            [
+              -65.4345703125,
+              18.121707737355866
+            ],
+            [
+              -65.42924880981445,
+              18.12709149309076
+            ],
+            [
+              -65.42787551879883,
+              18.13345389999159
+            ],
+            [
+              -65.43130874633789,
+              18.13443271128823
+            ],
+            [
+              -65.44092178344727,
+              18.130680571579425
+            ]
+          ]]
+              }
+          };
+
+        var destIno = L.geoJSON(dest).addTo(map).bindPopup('<iframe src="coqui.mp3" width = "300" height="80" frameborder = 0 ></iframe>');
+        
+        var baseLayers = {
+            "1937": layer1937,
+            "1983": layer1983,
+            "OSM": osm 
+        };
+
+        var overlayLayers = {
+            "Land Use": useLand,
+            "Central": center,
+            "Destino": destIno 
+        };
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend');
+                labels = ['<strong>Land Use</strong>'],
+                categories = ['Swamp','Fruit','Brush','Pasture', 'Brush and Pasture', 'Sorghum'];
+
+                for (var i = 0; i < categories.length; i++) {
+
+                        div.innerHTML += 
+                        labels.push(
+                            '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
+                        (categories[i] ? categories[i] : '+'));
+
+                    }
+                    div.innerHTML = labels.join('<br>');
+                return div;
+                };
+
+        legend.addTo(map);
+
+        L.control.layers(baseLayers, overlayLayers).addTo(map);
+      
+    </script>
+  </body>
+</html>
