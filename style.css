@@ -36,6 +36,17 @@ summary:hover{
     color: white;
 }
 
+.head{
+    background-color:none;
+    text-decoration: none;
+    color: black
+}
+.head:hover{
+    background-color:none;
+    text-decoration: none;
+    color: black
+}
+
 a:hover{
     background-color: rgb(223, 190, 118);
     color: rgb(255, 255, 255);
