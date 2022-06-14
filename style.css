@@ -1,0 +1,50 @@
+:root {
+    --color-bg: #E5F1F1;
+    --color-text-main: #000000;
+    --image-max-width: 300px;
+    --image-margin: 3rem;
+    --font-family: "Sen";
+    --font-family-header: "Sen";
+}
+
+body{
+    background-color: var(--color-bg);
+    font-family: var(--font-family);
+}
+
+h1{
+    margin-left: 5%;
+    font-size: 40px;
+}
+
+.about {
+    font-family: var(--font-family);
+    margin-left: 5%;
+    margin-right: 20%;
+    font-size: 20px;
+}
+
+details p {
+    margin-left: 10%
+}
+details ul {
+    margin-left: 10%
+}
+
+summary:hover{
+    background-color: rgb(223, 190, 118);
+    color: white;
+}
+
+a:hover{
+    background-color: rgb(223, 190, 118);
+    color: rgb(255, 255, 255);
+}
+
+@media screen and (max-width: 800px){
+    .about {
+        font-family: var(--font-family);
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
