@@ -47,9 +47,15 @@ summary:hover{
     color: black
 }
 
+a {
+    color: #4682b4;
+    border-bottom-style: dotted;
+    text-decoration: none;
+}
+
 a:hover{
-    background-color: rgb(223, 190, 118);
-    color: rgb(255, 255, 255);
+    background-color: #dfbe76;
+    color: #ffffff;
 }
 
 @media screen and (max-width: 800px){
