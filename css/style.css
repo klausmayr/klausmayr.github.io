@@ -73,7 +73,7 @@ iframe{
     position: fixed;
     right: 50px;
     top: 50px;
-    width: calc(30vw - 50px);
+    width: calc(40vw - 50px);
 }
 
 details p {
@@ -117,4 +117,8 @@ a:hover{
         margin-left: 5%;
         margin-right: 5%;
     }
+    
+  .maps li:hover img {
+    display: none;
+}
 }
