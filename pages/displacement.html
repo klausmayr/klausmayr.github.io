@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sen">
+    <link rel="stylesheet" href="../css/style.css"/>
+    <title>klaus mayr</title>
+    <style>
+        .item3 { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'main main main main right right'
+    'footer footer footer footer footer footer';
+  gap: 10px;
+  padding: 10px;
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.item4 img{
+    width: 30vw
+}
+
+@media screen and (max-width: 900px){
+    .grid-container{
+        display:block
+    }
+    .item4 img{
+    width: 90vw
+}
+}
+    </style>
+
+  </head>
+  <body>
+
+    <a class="head" href="https://klausmayr.github.io/"><h1>klaus mayr</h1></a>
+
+    <div class="grid-container">
+        <div class="item3">
+            <h2>This</h2>
+            <p>let's go</p>
+        </div>
+        <div class="item4">
+            <a href="../images/displacement-graphic.jpg">
+                <img src="../images/displacement-graphic.jpg">
+            </a>
+        </div>
+        <div class="item5">
+        <iframe src="https://klausmayr.github.io/vieques-displacement" title="Vieques Displacment"></iframe>
+    </div>
+    </div>
+    
+
+  </body>
+</html>
